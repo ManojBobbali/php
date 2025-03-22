@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visa Application</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        .container {
+            width: 50%;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin: 10px 0 5px;
+            font-weight: bold;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            font-size: 16px;
+        }
+
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        .error {
+            color: red;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        p.success {
+            color: green;
+            font-weight: bold;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Visa Application</h2>
+        <form id="visaForm" action="visa_application.php" method="POST" onsubmit="return validateForm()">
+            <label for="name">Name: </label>
+            <input type="text" id="name" name="name" required>
+            <br>
+            <label for="email">Email: </label>
+            <input type="text" id="email" name="email" required>
+            <br>
+            <label for="phone">Phone Number:</label>
+            <input type="text" id="phone" name="phone" required>
+            <br>
+            <label for="passportNumber">Passport Number (8-10 characters):</label>
+            <input type="text" id="passportNumber" name="passportNumber" required>
+            <br>
+
+            <label for="country">Country:</label>
+            <select id="country" name="country" required>
+                <option value="">Select a country</option>
+                <option value="USA">USA</option>
+                <option value="Canada">Canada</option>
+                <option value="India">India</option>
+                <option value="UK">UK</option>
+                <option value="Australia">Australia</option>
+            </select>
+            <br>
+
+            <input type="submit" value="Apply for Visa">
+        </form>
+        <p id="errorMessage" class="error"></p>
+        <p id="successMessage" class="success"></p>
+    </div>
+
+    <script>
+        function validateForm() {
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            const passportNumber = document.getElementById('passportNumber').value.trim();
+            const country = document.getElementById('country').value;
+            const errorMessage = document.getElementById('errorMessage');
+            const successMessage = document.getElementById('successMessage');
+            
+            errorMessage.textContent = '';
+            successMessage.textContent = '';
+
+            // Name validation: Non-empty and only alphabets
+            const nameRegex = /^[a-zA-Z\s]+$/;
+            if (!name) {
+                errorMessage.textContent = "Name is required!";
+                return false;
+            } else if (!nameRegex.test(name)) {
+                errorMessage.textContent = "Name should contain only alphabets!";
+                return false;
+            }
+
+            // Email validation
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!email) {
+                errorMessage.textContent = "Email is required!";
+                return false;
+            } else if (!emailRegex.test(email)) {
+                errorMessage.textContent = "Invalid email format!";
+                return false;
+            }
+
+            // Phone number validation: 10 digits only
+            const phoneRegex = /^\d{10}$/;
+            if (!phone) {
+                errorMessage.textContent = "Phone number is required!";
+                return false;
+            } else if (!phoneRegex.test(phone)) {
+                errorMessage.textContent = "Phone number must be 10 digits!";
+                return false;
+            }
+
+            // Passport number validation: Length between 8 and 10
+            if (!passportNumber) {
+                errorMessage.textContent = "Passport number is required!";
+                return false;
+            } else if (passportNumber.length < 8 || passportNumber.length > 10) {
+                errorMessage.textContent = "Passport number must be between 8 and 10 characters!";
+                return false;
+            }
+
+            // Country validation
+            if (!country) {
+                errorMessage.textContent = "Please select a country!";
+                return false;
+            }
+
+            successMessage.textContent = "Visa application submitted successfully!";
+            return true;
+        }
+    </script>
+</body>
+</html>

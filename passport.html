@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visa Application Form</title>
+    <style>
+        .error { color: red; font-weight: bold; }
+        .success { color: green; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <h2>Visa Application</h2>
+    <form id="visaApplicationForm" action="visa_application.php" method="POST">
+        <label for="name">Full Name:</label><br>
+        <input type="text" id="name" name="name" required><br><br>
+
+        <label for="email">Email:</label><br>
+        <input type="email" id="email" name="email" required><br><br>
+
+        <label for="phone">Phone Number:</label><br>
+        <input type="text" id="phone" name="phone" required><br><br>
+
+        <label for="passport">Passport Number (8-10 characters):</label><br>
+        <input type="text" id="passport" name="passport" minlength="8" maxlength="10" required><br><br>
+
+        <label for="country">Country:</label><br>
+        <select id="country" name="country" required>
+            <option value="">Select...</option>
+            <option value="USA">USA</option>
+            <option value="Canada">Canada</option>
+            <option value="India">India</option>
+            <option value="UK">UK</option>
+            <option value="Australia">Australia</option>
+        </select><br><br>
+
+        <button type="submit">Apply for Visa</button><br><br>
+        <p id="error" class="error"></p>
+    </form>
+
+    <script>
+        document.getElementById("visaApplicationForm").addEventListener("submit", function(event) {
+            const name = document.getElementById("name").value;
+            const email = document.getElementById("email").value;
+            const phone = document.getElementById("phone").value;
+            const passport = document.getElementById("passport").value;
+            const country = document.getElementById("country").value;
+            const error = document.getElementById("error");
+
+            // Clear previous error messages
+            error.textContent = '';
+
+            // Check for empty fields
+            if (!name || !email || !phone || !passport || !country) {
+                error.textContent = "All fields are required!";
+                event.preventDefault();
+                return;
+            }
+
+            // Validate passport number length
+            if (passport.length < 8 || passport.length > 10) {
+                error.textContent = "Invalid passport number!";
+                event.preventDefault();
+                return;
+            }
+
+            // If all inputs are valid, let the form submit
+            alert("Visa application submitted successfully!");
+        });
+    </script>
+</body>
+</html>
